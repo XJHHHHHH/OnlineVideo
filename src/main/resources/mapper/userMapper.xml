@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    Welcome to use the TableGo Tools.
+    
+    http://vipbooks.iteye.com
+    http://blog.csdn.net/vipbooks
+    http://www.cnblogs.com/vipbooks
+    
+    Author:bianj
+    Email:edinsker@163.com
+    Version:5.8.0
+-->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- USER -->
+<mapper namespace="com.duxing.onlinevideo.dao.UserDao">
+    <!-- 结果映射 -->
+    <resultMap id="userMap" type="User">
+        <id column="ID" property="id" jdbcType="INTEGER" />
+        <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
+        <result column="USERNAME" property="username" jdbcType="VARCHAR" />
+        <result column="PASSWORD" property="password" jdbcType="VARCHAR" />
+        <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+        <result column="VIP_FLAG" property="vipFlag" jdbcType="VARCHAR" />
+        <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    
+    <!-- 表所有字段 -->
+    <sql id="allColumns">
+        ID, MOBILE, USERNAME, PASSWORD, EMAIL, VIP_FLAG, CREATE_TIME
+    </sql>
+    
+    <!-- 查询所有数据 -->
+    <select id="findUserAll" resultMap="userMap">
+        SELECT
+        <include refid="allColumns" />
+        FROM USER
+    </select>
+    
+    <!-- 根据条件查询数据 -->
+    <select id="findUserByCondition" resultMap="userMap" parameterType="map">
+        SELECT
+        <include refid="allColumns" />
+        FROM USER WHERE 1 = 1
+        <if test="mobile != null and mobile != ''">
+            AND MOBILE = #{mobile}
+        </if>
+        <if test="username != null and username != ''">
+            AND USERNAME = #{username}
+        </if>
+        <if test="password != null and password != ''">
+            AND PASSWORD = #{password}
+        </if>
+        <if test="email != null and email != ''">
+            AND EMAIL = #{email}
+        </if>
+        <if test="vipFlag != null">
+            AND VIP_FLAG = #{vipFlag}
+        </if>
+        <if test="createTime != null">
+            AND CREATE_TIME = #{createTime}
+        </if>
+    </select>
+    
+    <!-- 根据主键查询数据 -->
+    <select id="findUserByIds" resultMap="userMap" parameterType="list">
+        SELECT
+        <include refid="allColumns" />
+        FROM USER WHERE ID IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+    
+    <!-- 插入数据 -->
+    <insert id="insertUser" parameterType="map">
+        INSERT INTO USER (<include refid="allColumns" />)
+        VALUES (
+            #{id},
+            #{mobile},
+            #{username},
+            #{password},
+            #{email},
+            #{vipFlag},
+            #{createTime}
+        )
+    </insert>
+    
+    <!-- 修改数据 -->
+    <update id="updateUser" parameterType="map">
+        UPDATE USER SET
+            MOBILE = #{mobile},
+            USERNAME = #{username},
+            PASSWORD = #{password},
+            EMAIL = #{email},
+            VIP_FLAG = #{vipFlag},
+            CREATE_TIME = #{createTime}
+        WHERE ID = #{id}
+    </update>
+    
+    <!-- 批量修改数据 -->
+    <update id="updateUsers" parameterType="list">
+        <foreach collection="list" index="index" item="item" separator=";">
+            UPDATE USER SET
+                MOBILE = #{item.mobile},
+                USERNAME = #{item.username},
+                PASSWORD = #{item.password},
+                EMAIL = #{item.email},
+                VIP_FLAG = #{item.vipFlag},
+                CREATE_TIME = #{item.createTime}
+            WHERE ID = #{item.id}
+        </foreach>
+    </update>
+    
+    <!-- 根据主键删除数据 -->
+    <delete id="deleteUserById" parameterType="string">
+        DELETE FROM USER WHERE ID = #{id}
+    </delete>
+    
+    <!-- 根据主键批量删除数据 -->
+    <delete id="deleteUserByIds" parameterType="list">
+        DELETE FROM USER WHERE ID IN
+        <foreach collection="list" index="index" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
