@@ -24,11 +24,12 @@
         <result column="EMAIL" property="email" jdbcType="VARCHAR" />
         <result column="VIP_FLAG" property="vipFlag" jdbcType="VARCHAR" />
         <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="FLAG" property="flag" jdbcType="INTEGER"/>
     </resultMap>
     
     <!-- 表所有字段 -->
     <sql id="allColumns">
-        ID, MOBILE, USERNAME, PASSWORD, EMAIL, VIP_FLAG, CREATE_TIME
+        ID, MOBILE, USERNAME, PASSWORD, EMAIL, VIP_FLAG, CREATE_TIME ,FLAG
     </sql>
     
     <!-- 查询所有数据 -->
@@ -36,6 +37,7 @@
         SELECT
         <include refid="allColumns" />
         FROM USER
+        WHERE FLAG = 1
     </select>
     
     <!-- 根据条件查询数据 -->
@@ -61,8 +63,9 @@
         <if test="createTime != null">
             AND CREATE_TIME = #{createTime}
         </if>
+        AND  flag = 1
     </select>
-    
+
     <!-- 根据主键查询数据 -->
     <select id="findUserByIds" resultMap="userMap" parameterType="list">
         SELECT
@@ -83,20 +86,38 @@
             #{password},
             #{email},
             #{vipFlag},
-            #{createTime}
+            #{createTime},
+            #{flag}
         )
     </insert>
     
     <!-- 修改数据 -->
-    <update id="updateUser" parameterType="map">
-        UPDATE USER SET
-            MOBILE = #{mobile},
-            USERNAME = #{username},
-            PASSWORD = #{password},
-            EMAIL = #{email},
-            VIP_FLAG = #{vipFlag},
-            CREATE_TIME = #{createTime}
-        WHERE ID = #{id}
+    <update id="updateUser" parameterType="user">
+        UPDATE user
+        <set>
+            <if test="mobile != null">
+                mobile = #{mobile},
+            </if>
+            <if test="username != null">
+                username = #{username},
+            </if>
+            <if test="password != null">
+                password = #{password},
+            </if>
+            <if test="email != null">
+                email = #{email},
+            </if>
+            <if test="vipFlag != null">
+                vip_flag = #{vipFlag},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="flag != null">
+                flag = #{flag}
+            </if>
+        </set>
+        WHERE id = #{id}
     </update>
     
     <!-- 批量修改数据 -->
@@ -125,4 +146,7 @@
             #{id}
         </foreach>
     </delete>
+
+
+
 </mapper>

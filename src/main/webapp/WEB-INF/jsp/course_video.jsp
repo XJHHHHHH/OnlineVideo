@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -7,7 +8,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="/static/css/duyi-video.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/duxing-video.css" crossorigin="anonymous">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/static/css/bootstrap.min.css" crossorigin="anonymous">
 
@@ -24,7 +25,7 @@
     <%--    视频--%>
     <div class="card">
         <div class="embed-responsive embed-responsive-16by9">
-            <iframe src="//player.bilibili.com/player.html?aid=712169146&bvid=BV1iD4y1o7dD&cid=238287362&page=1"
+            <iframe src="${toVideo.videoUrl}"
                     scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
         </div>
     </div>
@@ -32,9 +33,9 @@
     <%--    视频相关--%>
     <div class="row mt-2">
         <div class="col-md-9 mt-1">
-            <span class="font-weight">浏览次数：<b class="text-primary">1069次</b></span>
-            <span class="font-weight ml-3">课时数：<b class="text-primary">19</b></span>
-            <span class="text-weight ml-3">类别：<b class="text-success">免费</b></span>
+            <span class="font-weight">浏览次数：<b class="text-primary">${courseTopic.views}</b></span>
+            <span class="font-weight ml-3">课时数：<b class="text-primary">${videoList.size()}</b></span>
+            <span class="text-weight ml-3">类别：<b class="${courseTopic.vipFlag==0?"text-success":"text-danger"}">${courseTopic.vipFlag==0?"免费":"VIP"}</b></span>
             <i class="fa fa-share-alt text-secondary ml-3">&nbsp;&nbsp;<a href="#"
                                                                           class="alert-link text-secondary">分享</a></i>
             <i class="fa fa-star text-secondary ml-3">&nbsp;&nbsp;<a href="#"
@@ -67,34 +68,25 @@
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active p-3" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                        <p>&nbsp;&nbsp;&nbsp;&nbsp;Vue3.0（正式版） + TS 仿知乎专栏企业级项目 慕课网首发，Vue3.0企业级项目实战。热门技术双剑合璧，Vue3.0 配合 TypeScript ，使用新版Vuex 和 Vue-Router
-                        全家桶完成前后端分离复杂实战项目。一系列由易到难通用组件开发，让你学会一个基本的组件库的开发思路和技巧。接入真实后端API，告别 mock 数据，并提供Swagger
-                        在线调试查询。抓住前后端分离开发痛点 - 权限管理，路由控制，全局Store 结构设计，前端缓存实现等。
+                        <p>&nbsp;&nbsp${courseTopic.topicIntro}
                         </p>
                     </div>
                     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-
-
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-light border-0"><i
-                                class="fa fa-play-circle-o">&nbsp;&nbsp;第1讲<span class="ml-3">1.尚硅谷-IDEA-IntelliJ IDEA的介绍和优势</span>
-                            <span class="ml-1 badge badge-pill badge-success  pt-1">免费</span>
-                        </i></a>
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-light border-0"><i
-                                class="fa fa-play-circle-o">&nbsp;&nbsp;第1讲<span class="ml-3">1.尚硅谷-IDEA-IntelliJ IDEA的介绍和优势</span>
-                            <span class="ml-1 badge badge-pill badge-success  pt-1">免费</span>
-                        </i></a>
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-light border-0"><i
-                                class="fa fa-play-circle-o">&nbsp;&nbsp;第1讲<span class="ml-3">1.尚硅谷-IDEA-IntelliJ IDEA的介绍和优势</span>
-                            <span class="ml-1 badge badge-pill badge-success  pt-1">免费</span>
-                        </i></a>
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-light border-0"><i
-                                class="fa fa-play-circle-o">&nbsp;&nbsp;第1讲<span class="ml-3">1.尚硅谷-IDEA-IntelliJ IDEA的介绍和优势</span>
-                            <span class="ml-1 badge badge-pill badge-success  pt-1">免费</span>
-                        </i></a>
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-light border-0"><i
-                                class="fa fa-play-circle-o">&nbsp;&nbsp;第1讲<span class="ml-3">1.尚硅谷-IDEA-IntelliJ IDEA的介绍和优势</span>
-                            <span class="ml-1 badge badge-pill badge-success  pt-1">免费</span>
-                        </i></a>
+                    <c:forEach items="${videoList}" var="video" varStatus="idx" >
+                        <a href="/courseVideo/${topicId}/${video.id}" class="list-group-item list-group-item-action list-group-item-light border-0">
+                            <i class="fa fa-play-circle-o">
+                                &nbsp;&nbsp;第${idx.index}讲<span class="ml-3">${idx.index+1}.${video.name}</span>
+                                <c:choose>
+                                    <c:when test="${video.freeView==0}">
+                                        <span class="ml-1 badge badge-pill badge-success  pt-1">&nbsp;&nbsp;免费</span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span class="ml-1 badge badge-pill badge-danger  pt-1">&nbsp;&nbsp;VIP</span>
+                                    </c:otherwise>
+                                </c:choose>
+                            </i>
+                        </a>
+                    </c:forEach>
 
                     </div>
 
@@ -106,14 +98,14 @@
         <div class="col-md-3">
             <div class="card">
                 <div class="card-header">
-                    渡一视频
+                    笃行视频
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4"><img src="/static/imgs/hicon.jpg" class="rounded-circle"
                                                    alt="Responsive image" style="height: 60px;width: 60px;">
                         </div>
-                        <div class="col-md-8">程老师<br><span class="text-secondary"
+                        <div class="col-md-8">周老师<br><span class="text-secondary"
                                                            style="font-size: 16px;">管理员</span>
                         </div>
 

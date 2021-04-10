@@ -1,12 +1,9 @@
-package com.duxing.onlinevideo.dao;
+package com.duxing.onlinevideo.service;
 
 import com.duxing.onlinevideo.entity.Banner;
 
 import java.util.List;
 
-public interface BannerDao {
-
-    int insertBanner(Banner banner);
-
+public interface BannerService {
     List<Banner> findBannerByCondition();
 }

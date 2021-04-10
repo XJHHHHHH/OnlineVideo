@@ -7,5 +7,9 @@ public interface CourseTopicsService {
 
     PageInfo<CourseTopics> getIndexCourseTopic(int typeId);
 
-    PageInfo<CourseTopics> getIndexNewestTopic(int limit);
+    PageInfo<CourseTopics> getIndexNewestTopic();
+
+    CourseTopics getCourseTopicByID(int topicId);
+
+    PageInfo<CourseTopics> getSearchCourseTopic(String searchName);
 }

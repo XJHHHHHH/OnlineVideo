@@ -1,5 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 
@@ -15,21 +14,21 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/">首页 <span class="sr-only">(current)</span></a>
+                <li class="nav-item">
+                    <a class="nav-link ${navFocus==1?"active":""}" href="/">首页 <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/courseList">课程</a>
+                    <a class="nav-link ${navFocus==2?"active":""}" href="/courseList">课程</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/vip">会员</a>
+                    <a class="nav-link ${navFocus==3?"active":""}" href="/vip">会员</a>
                 </li>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">直播</a>
+                    <a class="nav-link ${navFocus==4?"active":""}" href="/live">直播</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/tools">工具</a>
+                    <a class="nav-link ${navFocus==5?"active":""}" href="/tools/type/${0}">工具</a>
                 </li>
             </ul>
                 <%-- 已经登录的用户，显示用户名--%>
@@ -56,7 +55,7 @@
             </c:choose>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="搜索视频" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
+                <button class="btn btn-outline-success my-2 my-sm-0" name="searchName" value="" type="submit">搜索</button>
             </form>
         </div>
 
@@ -226,10 +225,7 @@
 
             </form>
         </div>
-
-
     </div>
-
 </div>
 
 

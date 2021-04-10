@@ -28,7 +28,7 @@ public class ServiceTest {
 
     @Test
     public void t4(){
-        PageInfo<CourseTopics> list = courseTopicService.getIndexNewestTopic(4);
+        PageInfo<CourseTopics> list = courseTopicService.getIndexNewestTopic();
         System.out.println(list.getSize());
     }
 

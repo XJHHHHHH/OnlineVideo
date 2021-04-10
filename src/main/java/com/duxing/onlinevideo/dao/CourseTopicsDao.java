@@ -9,6 +9,7 @@ public interface CourseTopicsDao {
 
     int insertCourseTopic(CourseTopics courseTopic);
 
-
     List<CourseTopics> findCourseTopicsByCondition(HashMap<String, Object> map);
+
+    List<CourseTopics> findCourseTopicsByIds(List<Integer> list);
 }

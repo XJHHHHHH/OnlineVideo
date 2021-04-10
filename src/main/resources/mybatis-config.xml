@@ -15,7 +15,7 @@
     </settings>
 
 
-    <!-- 配置分页插件 -->
+    <!-- 配置分页插件,pageHelper -->
     <plugins>
         <plugin interceptor="com.github.pagehelper.PageInterceptor">
         </plugin>

@@ -42,7 +42,7 @@
         <include refid="allColumns" />
         FROM BANNER WHERE 1 = 1
         <if test="imgUrl != null and imgUrl != ''">
-            AND IMG_URL LIKE CONCAT('%',#{imgUrl},'%')
+            AND IMG_URL LIKE #{imgUrl}
         </if>
         <if test="type != null">
             AND TYPE = #{type}

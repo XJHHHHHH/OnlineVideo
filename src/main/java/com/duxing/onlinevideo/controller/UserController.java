@@ -40,7 +40,7 @@ public class UserController {
         }
 
         User dbUser = userService.login(user);
-        if (dbUser == null) {
+        if (dbUser == null || dbUser.getFlag()==0) {
             return responseResult;
         }
         responseResult.setRcode(1);
@@ -89,8 +89,8 @@ public class UserController {
            // throw new UserException("参数错误");
         }
 
-        User dbUser = userService.login(user);
-        if (dbUser != null) {
+        User resultUser = userService.login(user);
+        if (resultUser != null) {
             // 登录
             session.setAttribute("login_user", user);
         }
@@ -168,6 +168,5 @@ public class UserController {
         }
 
         return result;
-
     }
 }

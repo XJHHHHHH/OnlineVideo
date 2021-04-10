@@ -5,6 +5,8 @@ import cn.hutool.core.util.RandomUtil;
 import com.duxing.onlinevideo.dao.*;
 import com.duxing.onlinevideo.entity.*;
 //import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
+import java.util.List;
 
 import static cn.hutool.core.date.DateUtil.now;
 
@@ -90,22 +93,31 @@ public class DaoTest {
 
     @Test
     public void t4() {
+        for(int i=0;i<12;i++){
+            CourseVideo courseVideo = new CourseVideo();
+            courseVideo.setName("深入理解jvm"+i);
+            courseVideo.setFreeView(RandomUtil.randomInt(0,2));
+            courseVideo.setCreateTime(new Date());
+            courseVideo.setFlag(1);
+            courseVideo.setTopicId(12);
+            courseVideo.setVideoUrl("//player.bilibili.com/player.html?aid=204955330&bvid=BV1ih411D7jN&cid=320054165&page=1");
+            int code = courseVideoDao.insertCourseVideo(courseVideo);
+            System.out.println(code);
+        }
 
-        CourseVideo courseVideo = new CourseVideo();
-        courseVideo.setName("video");
-
-        int code = courseVideoDao.insertCourseVideo(courseVideo);
-        System.out.println(code);
     }
 
     @Test
     public void t5() {
-
-        ToolsItem toolsItem = new ToolsItem();
-        toolsItem.setName("toolsitem");
-
-        int code = toolsItemDao.insertToolsItem(toolsItem);
-        System.out.println(code);
+        for(int i=0;i<100;i++){
+            ToolsItem toolsItem = new ToolsItem();
+            toolsItem.setName("w3c文档查询"+i);
+            toolsItem.setToolsUrl("http://www.w3school.com");
+            toolsItem.setToolTypeId(RandomUtil.randomInt(1,4));
+            toolsItem.setIconUrl("/static/imgs/card-item.png");
+            int code = toolsItemDao.insertToolsItem(toolsItem);
+            System.out.println(code);
+        }
     }
 
     @Test
@@ -122,10 +134,27 @@ public class DaoTest {
     @Test
     public void t7() {
 
-        User user = new User();
-        user.setUsername("username");
+        for (int i=8;i<57;i++){
+            User user = new User();
+            user.setUsername("username"+i);
+            user.setVipFlag(0);
+            user.setMobile("13976758894");
+            user.setEmail("123"+i+"@qq.com");
+            user.setPassword("1234aa"+i);
+            user.setCreateTime(new Date());
+            user.setFalg(1);
+            int code = userDao.insertUser(user);
+            System.out.println(code);
+        }
 
-        int code = userDao.insertUser(user);
-        System.out.println(code);
+    }
+    @Test
+    public void t8(){
+        PageHelper.startPage(1,16);
+        List<ToolsItem> list = toolsItemDao.findToolsItemAll();
+        PageInfo<ToolsItem> pageInfo = new PageInfo<>(list);
+        System.out.println(pageInfo.getList());
+        System.out.println(pageInfo.getPages());
+        System.out.println(pageInfo.getPageNum());
     }
 }

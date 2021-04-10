@@ -43,6 +43,17 @@ public class User implements java.io.Serializable {
     /** createTime */
     private Date createTime;
 
+    /** flag*/
+    private Integer flag;
+
+    public Integer getFlag() {
+        return flag;
+    }
+
+    public void setFalg(Integer flag) {
+        this.flag = flag;
+    }
+
     /**
      * 获取id
      * 
